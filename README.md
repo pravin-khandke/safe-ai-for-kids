@@ -10,7 +10,7 @@ Kids reach for AI tools built for adults, and no shared standard exists for what
 
 ## What we are building
 
-A single, printable, one-page standard — **"Using AI at Home and School"** — that:
+— **"Using AI at Home and School"** — that:
 
 - A principal can sign and a parent can stick on the fridge.
 - Works for **both** home and school (one shared document, not separate versions).
