@@ -33,14 +33,17 @@ Three properties matter more than the controls:
 - A self-harm message always names a real crisis line, and the engine refuses to start if no crisis contact is configured.
 
 ```bash
-python -m unittest discover -s tests -t .      # 103 tests, no dependencies
+python -m unittest discover -s tests -t .      # 121 tests, no dependencies
 
 python -m kidsguard show --age 12-15 --child Om
 python -m kidsguard set-level all very-high
 python -m kidsguard words add fortnite
 python -m kidsguard check "write my essay for me" --age 12-15
+python -m kidsguard prompt --age 8-11 --subject math
 python -m kidsguard reset
 ```
+
+**Tutor prompt.** `prompts/study-buddy-tutor.md` holds the study buddy persona for ages 8-11 and 12-15, as a parsed document rather than code. `python -m kidsguard prompt --age 8-11 --subject math` renders the system prompt for one band and subject, with the standard's six refusals, the band's own explanation lines, and the configured crisis contact injected at render time. The prompt therefore carries the same wording the engine enforces, and cannot drift from it.
 
 The detector shipped today is a keyword table for wiring and tests. It is not a safety classifier and must not meet a real child. Llama Guard 3 1B through Ollama is the next piece of the approved engine design.
 

@@ -9,6 +9,7 @@
     python -m kidsguard reset
     python -m kidsguard check "write my essay for me" --age 12-15
     python -m kidsguard models --age 8-11
+    python -m kidsguard prompt --age 8-11 --subject math
 
 Settings live in ``kidsguard-settings.json`` unless ``--config`` says otherwise.
 ``check`` exits 1 when the message is refused, so it can be used in a smoke test.
@@ -23,6 +24,7 @@ from typing import List, Optional, Sequence
 
 from .levels import CategoryGroup, ProtectionLevel
 from .moderation import ContentModerator
+from .prompts import SUBJECTS, TutorPromptSource, render_tutor_prompt
 from .render import render_decision, render_settings
 from .settings import ModerationSettings, SettingsError
 from .standard import Standard, StandardFormatError
@@ -161,6 +163,20 @@ def cmd_models(args) -> int:
     return 0
 
 
+def cmd_prompt(args) -> int:
+    settings = _load(args)
+    standard = Standard.load(args.standard)
+    text = render_tutor_prompt(
+        standard, settings, args.age, args.subject, source=TutorPromptSource.load()
+    )
+    if args.out:
+        Path(args.out).write_text(text, encoding="utf-8")
+        print("Wrote the %s prompt to %s" % (args.age, args.out))
+    else:
+        print(text)
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="kidsguard",
@@ -220,6 +236,17 @@ def build_parser() -> argparse.ArgumentParser:
         "models", parents=[common], help="list the tools available under the current settings"
     )
     models.set_defaults(func=cmd_models)
+
+    prompt = sub.add_parser(
+        "prompt", parents=[common], help="render the tutor system prompt for one band and subject"
+    )
+    prompt.add_argument(
+        "--subject",
+        default="unsure",
+        help="one of: %s (default: %%(default)s)" % ", ".join(SUBJECTS),
+    )
+    prompt.add_argument("--out", default=None, help="write the prompt to this file instead of stdout")
+    prompt.set_defaults(func=cmd_prompt)
 
     return parser
 
