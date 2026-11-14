@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kidsguard"
+version = "0.1.0"
+description = "Age-banded guardrail engine for children's AI use, built from the Using AI at Home and School standard"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "CC-BY-4.0" }
+authors = [{ name = "Pravin Khandke" }]
+keywords = ["ai-safety", "child-safety", "guardrails", "content-moderation"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Programming Language :: Python :: 3",
+    "Topic :: Education",
+    "Topic :: Security",
+]
+dependencies = []
+
+[project.scripts]
+kidsguard = "kidsguard.cli:main"
+
+[tool.setuptools]
+packages = ["kidsguard"]
