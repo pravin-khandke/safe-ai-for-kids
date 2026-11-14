@@ -20,6 +20,13 @@ from __future__ import annotations
 from .levels import AGE_BANDS, CategoryGroup, ProtectionLevel, CATEGORY_GROUP_LABEL
 from .moderation import Action, ContentModerator, Decision, Finding, RuleBasedClassifier
 from .models import MODEL_CATALOG, ModelProfile, available_models
+from .prompts import (
+    PROMPT_AGE_BANDS,
+    SUBJECTS,
+    PromptFormatError,
+    TutorPromptSource,
+    render_tutor_prompt,
+)
 from .settings import ModerationSettings, SettingsError, default_settings
 from .standard import Standard, StandardFormatError
 
@@ -34,13 +41,18 @@ __all__ = [
     "MODEL_CATALOG",
     "ModerationSettings",
     "ModelProfile",
+    "PROMPT_AGE_BANDS",
+    "PromptFormatError",
     "ProtectionLevel",
     "RuleBasedClassifier",
+    "SUBJECTS",
     "SettingsError",
     "Standard",
     "StandardFormatError",
+    "TutorPromptSource",
     "available_models",
     "default_settings",
+    "render_tutor_prompt",
 ]
 
 __version__ = "0.1.0"
