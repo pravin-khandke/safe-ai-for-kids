@@ -20,6 +20,30 @@ Kids reach for AI tools built for adults, and no shared standard exists for what
 
 This is a **document project**. There is no software, no web app, no enforcement tooling. All the weight is on getting the content and structure right.
 
+## Enforcement engine (started 2026-11)
+
+The standard is published and licensed, and the engine design is approved (`docs/designs/guardrail-engine-and-demo.md`). The first slice of software now lives in this repo under `kidsguard/`. The standard document is still the policy source: the engine parses its refusal language at load time and never holds a hand written copy.
+
+**Content moderation settings.** The screen an adult uses to tune filtering: an AI moderation toggle, four protection levels over Harassment & Hate and Violence & Adult Content, homework mode, and a custom word filter with Clear All, Reset to Default and Save. Design decisions are in `docs/designs/content-moderation-settings.md`.
+
+Three properties matter more than the controls:
+
+- The standard's six "always, at every age" refusals are not a setting. Switching AI moderation off does not switch them off, and no level relaxes them.
+- An age band can be tightened, never loosened past the standard. Ages 8 to 11 always enforce Very High protection, 12 to 15 enforce Medium, and 16 to 18 accept Low. The screen says so when it substitutes a stricter level.
+- A self-harm message always names a real crisis line, and the engine refuses to start if no crisis contact is configured.
+
+```bash
+python -m unittest discover -s tests -t .      # 103 tests, no dependencies
+
+python -m kidsguard show --age 12-15 --child Om
+python -m kidsguard set-level all very-high
+python -m kidsguard words add fortnite
+python -m kidsguard check "write my essay for me" --age 12-15
+python -m kidsguard reset
+```
+
+The detector shipped today is a keyword table for wiring and tests. It is not a safety classifier and must not meet a real child. Llama Guard 3 1B through Ollama is the next piece of the approved engine design.
+
 ## Design decisions (settled)
 
 | Decision | Choice |
